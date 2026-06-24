@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlowPicks — Beauty & Fashion Finds</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:        #1a1a1a;
+      --blush:      #e8c5b0;
+      --sand:       #f5efe8;
+      --dusty-rose: #c9897a;
+      --slate:      #8a8480;
+      --white:      #ffffff;
+      --card-bg:    #fdfaf7;
+      --border:     #ede6dc;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600;
+      letter-spacing: 0.02em; color: var(--ink);
+      text-decoration: none;
+    }
+    .logo span { color: var(--dusty-rose); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--slate); transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--dusty-rose); }
+    .nav-cta {
+      background: var(--ink); color: var(--white);
+      border: none; padding: 9px 20px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+      font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--dusty-rose); }
+
+    /* ─── HERO ─── */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 88vh; overflow: hidden;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 5% 8% 5% 10%;
+      background: var(--sand);
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--dusty-rose);
+      margin-bottom: 1.2rem;
+    }
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 600; line-height: 1.12;
+      color: var(--ink); margin-bottom: 1.4rem;
+    }
+    .hero-headline em { font-style: italic; color: var(--dusty-rose); }
+    .hero-sub {
+      font-size: 1rem; color: var(--slate);
+      max-width: 420px; margin-bottom: 2.4rem; line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--ink); color: var(--white);
+      padding: 14px 32px; font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; transition: background 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--dusty-rose); }
+    .btn-ghost {
+      border: 1px solid var(--ink); color: var(--ink);
+      padding: 14px 32px; font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.2s; display: inline-block;
+    }
+    .btn-ghost:hover { background: var(--ink); color: var(--white); }
+    .hero-right {
+      position: relative; background: var(--blush);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-img-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #e8c5b0 0%, #c9897a 60%, #a0675a 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1rem;
+    }
+    .hero-img-placeholder svg { opacity: 0.35; }
+    .hero-badge {
+      position: absolute; bottom: 10%; left: -20px;
+      background: var(--white); padding: 18px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+      min-width: 180px;
+    }
+    .hero-badge-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 600; color: var(--dusty-rose);
+    }
+    .hero-badge-label { font-size: 0.78rem; color: var(--slate); }
+
+    /* ─── TICKER ─── */
+    .ticker {
+      background: var(--ink); color: var(--white);
+      padding: 11px 0; overflow: hidden; white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 22s linear infinite;
+    }
+    .ticker-inner span {
+      display: inline-block;
+      font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0 3rem;
+    }
+    .ticker-inner span::before { content: '✦'; margin-right: 1.5rem; color: var(--blush); }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── SECTION HEADER ─── */
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--dusty-rose); margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      font-weight: 600; color: var(--ink);
+    }
+
+    /* ─── CATEGORIES ─── */
+    .categories { padding: 80px 8%; background: var(--white); }
+    .cat-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    }
+    .cat-card {
+      aspect-ratio: 3/4;
+      position: relative; overflow: hidden; cursor: pointer;
+      display: flex; align-items: flex-end;
+    }
+    .cat-bg {
+      position: absolute; inset: 0;
+      transition: transform 0.5s ease;
+    }
+    .cat-card:hover .cat-bg { transform: scale(1.05); }
+    .cat-bg.skincare  { background: linear-gradient(160deg, #f0d9cc 0%, #d4967f 100%); }
+    .cat-bg.makeup    { background: linear-gradient(160deg, #f5c6d0 0%, #b5547e 100%); }
+    .cat-bg.haircare  { background: linear-gradient(160deg, #d6e8e0 0%, #5a9e84 100%); }
+    .cat-bg.fashion   { background: linear-gradient(160deg, #d8d0e8 0%, #7a62b0 100%); }
+    .cat-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%);
+      font-size: 3.5rem; opacity: 0.6;
+    }
+    .cat-label {
+      position: relative; z-index: 2;
+      background: var(--white); width: 100%;
+      padding: 14px 18px;
+    }
+    .cat-label h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 600;
+    }
+    .cat-label p { font-size: 0.75rem; color: var(--slate); }
+
+    /* ─── FEATURED PRODUCTS ─── */
+    .products { padding: 80px 8%; background: var(--sand); }
+    .product-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    }
+    .product-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .product-card:hover {
+      box-shadow: 0 12px 36px rgba(0,0,0,0.09);
+      transform: translateY(-4px);
+    }
+    .product-img {
+      aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; position: relative; overflow: hidden;
+    }
+    .product-img.p1 { background: linear-gradient(135deg, #fde8dc, #f5c4a8); }
+    .product-img.p2 { background: linear-gradient(135deg, #fde8ef, #f0afc0); }
+    .product-img.p3 { background: linear-gradient(135deg, #e8f0fd, #a8c0f5); }
+    .product-img.p4 { background: linear-gradient(135deg, #e8fded, #a8f5c0); }
+    .product-img.p5 { background: linear-gradient(135deg, #fdf5e8, #f5dca8); }
+    .product-img.p6 { background: linear-gradient(135deg, #f0e8fd, #c8a8f5); }
+    .badge-hot {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--dusty-rose); color: var(--white);
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 10px;
+    }
+    .badge-sale {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--ink); color: var(--white);
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 10px;
+    }
+    .product-info { padding: 20px 22px 22px; }
+    .product-brand {
+      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--dusty-rose); margin-bottom: 4px;
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 600; margin-bottom: 8px;
+    }
+    .product-desc { font-size: 0.83rem; color: var(--slate); margin-bottom: 14px; line-height: 1.6; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .price { font-size: 1.05rem; font-weight: 500; color: var(--ink); }
+    .price-old { font-size: 0.85rem; color: var(--slate); text-decoration: line-through; margin-left: 6px; }
+    .stars { font-size: 0.78rem; color: var(--dusty-rose); margin-bottom: 2px; }
+    .reviews { font-size: 0.72rem; color: var(--slate); }
+    .btn-amazon {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--ink); color: var(--white);
+      padding: 9px 18px; font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.05em; text-decoration: none;
+      transition: background 0.2s; white-space: nowrap;
+      border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    }
+    .btn-amazon:hover { background: var(--dusty-rose); }
+    .btn-amazon svg { flex-shrink: 0; }
+
+    /* ─── HOW IT WORKS ─── */
+    .how { padding: 80px 8%; background: var(--white); }
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+    .how-step { text-align: center; }
+    .how-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem; font-weight: 600;
+      color: var(--border); line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .how-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .how-step h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600; margin-bottom: 0.6rem;
+    }
+    .how-step p { font-size: 0.88rem; color: var(--slate); line-height: 1.7; }
+
+    /* ─── TOP PICKS BANNER ─── */
+    .banner {
+      background: var(--ink); color: var(--white);
+      padding: 60px 8%; display: flex;
+      align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .banner-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 400; margin-bottom: 0.5rem;
+    }
+    .banner-text h2 em { font-style: italic; color: var(--blush); }
+    .banner-text p { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+    .btn-light {
+      background: var(--white); color: var(--ink);
+      padding: 14px 32px; font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; transition: background 0.2s; white-space: nowrap;
+      display: inline-block;
+    }
+    .btn-light:hover { background: var(--blush); }
+
+    /* ─── NEWSLETTER ─── */
+    .newsletter {
+      padding: 80px 8%; background: var(--sand); text-align: center;
+    }
+    .newsletter h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 600; margin-bottom: 0.8rem;
+    }
+    .newsletter p { color: var(--slate); max-width: 480px; margin: 0 auto 2rem; }
+    .nl-form {
+      display: flex; max-width: 480px; margin: 0 auto; gap: 0;
+    }
+    .nl-form input {
+      flex: 1; padding: 14px 18px;
+      border: 1px solid var(--border); border-right: none;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      background: var(--white); outline: none; color: var(--ink);
+    }
+    .nl-form input::placeholder { color: var(--slate); }
+    .nl-form input:focus { border-color: var(--dusty-rose); }
+    .nl-form button {
+      background: var(--ink); color: var(--white);
+      border: none; padding: 14px 28px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+      font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    }
+    .nl-form button:hover { background: var(--dusty-rose); }
+    .nl-note { font-size: 0.72rem; color: var(--slate); margin-top: 0.8rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.7);
+      padding: 50px 8% 30px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo { color: var(--white); margin-bottom: 1rem; display: block; }
+    .footer-brand p { font-size: 0.83rem; line-height: 1.7; max-width: 260px; }
+    .footer-col h4 {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a {
+      font-size: 0.83rem; color: rgba(255,255,255,0.55);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: var(--blush); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: 0.75rem; color: rgba(255,255,255,0.35); }
+    .affiliate-notice {
+      font-size: 0.72rem; color: rgba(255,255,255,0.3);
+      max-width: 500px; text-align: right;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { min-height: 320px; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .how-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      nav .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .cat-grid { grid-template-columns: 1fr 1fr; }
+      .hero-left { padding: 10% 6%; }
+      .footer-top { grid-template-columns: 1fr; }
+      .nl-form { flex-direction: column; }
+      .nl-form input { border-right: 1px solid var(--border); border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Glow<span>Picks</span></a>
+  <ul class="nav-links">
+    <li><a href="#categories">Categories</a></li>
+    <li><a href="#products">Top Picks</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#newsletter">Newsletter</a></li>
+  </ul>
+  <a href="#products" class="nav-cta">Shop Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Curated Beauty & Fashion</p>
+    <h1 class="hero-headline">
+      Your shortcut to<br><em>flawless</em> finds on<br>Amazon
+    </h1>
+    <p class="hero-sub">
+      We test, review, and handpick the best beauty and fashion products so you never waste a click — or a cent.
+    </p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">Explore Picks</a>
+      <a href="#how" class="btn-ghost">How It Works</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-placeholder">
+      <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="35" r="20" fill="white"/>
+        <ellipse cx="50" cy="80" rx="30" ry="18" fill="white"/>
+        <circle cx="50" cy="35" r="12" fill="#c9897a"/>
+        <path d="M32 58 Q50 45 68 58" stroke="white" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+    <div class="hero-badge">
+      <div class="hero-badge-num">500+</div>
+      <div class="hero-badge-label">Products Reviewed</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Skincare Essentials</span><span>Amazon Best Sellers</span>
+    <span>Fashion Favorites</span><span>Makeup Must-Haves</span>
+    <span>Hair Care Heroes</span><span>Editor's Picks</span>
+    <span>New This Week</span><span>Top Rated</span>
+    <!-- duplicate for seamless loop -->
+    <span>Skincare Essentials</span><span>Amazon Best Sellers</span>
+    <span>Fashion Favorites</span><span>Makeup Must-Haves</span>
+    <span>Hair Care Heroes</span><span>Editor's Picks</span>
+    <span>New This Week</span><span>Top Rated</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="section-header">
+    <p class="section-eyebrow">Shop by Category</p>
+    <h2 class="section-title">What are you looking for?</h2>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <div class="cat-bg skincare"></div>
+      <div class="cat-icon">🧴</div>
+      <div class="cat-label">
+        <h3>Skincare</h3>
+        <p>Serums, moisturizers & more</p>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg makeup"></div>
+      <div class="cat-icon">💄</div>
+      <div class="cat-label">
+        <h3>Makeup</h3>
+        <p>Foundations, lips & eyes</p>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg haircare"></div>
+      <div class="cat-icon">💆</div>
+      <div class="cat-label">
+        <h3>Hair Care</h3>
+        <p>Masks, oils & treatments</p>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg fashion"></div>
+      <div class="cat-icon">👗</div>
+      <div class="cat-label">
+        <h3>Fashion</h3>
+        <p>Tops, dresses & accessories</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="section-header">
+    <p class="section-eyebrow">Editor's Top Picks</p>
+    <h2 class="section-title">Products we actually love</h2>
+  </div>
+  <div class="product-grid">
+
+    <!-- Product 1 -->
+    <div class="product-card">
+      <div class="product-img p1">
+        <span class="badge-hot">🔥 Hot</span>
+        🧴
+      </div>
+      <div class="product-info">
+        <p class="product-brand">CeraVe</p>
+        <h3 class="product-name">Hydrating Facial Cleanser</h3>
+        <p class="product-desc">Gentle, non-foaming formula with hyaluronic acid. Perfect for normal to dry skin.</p>
+        <div class="stars">★★★★★</div>
+        <div class="reviews">4.8 · 62,000+ reviews</div>
+        <br>
+        <div class="product-footer">
+          <div>
+            <span class="price">$14.99</span>
+            <span class="price-old">$18.00</span>
+          </div>
+          <a href="https://www.amazon.com/s?k=cerave+hydrating+facial+cleanser&tag=YOUR-TAG-20" target="_blank" rel="noopener" class="btn-amazon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            View on Amazon
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+      <div class="product-img p2">
+        <span class="badge-sale">Sale</span>
+        💄
+      </div>
+      <div class="product-info">
+        <p class="product-brand">Maybelline</p>
+        <h3 class="product-name">Fit Me Matte + Poreless Foundation</h3>
+        <p class="product-desc">Lightweight formula that blurs pores and controls shine for up to 8 hours.</p>
+        <div class="stars">★★★★☆</div>
+        <div class="reviews">4.5 · 41,000+ reviews</div>
+        <br>
+        <div class="product-footer">
+          <div>
+            <span class="price">$9.97</span>
+            <span class="price-old">$12.99</span>
+          </div>
+          <a href="https://www.amazon.com/s?k=maybelline+fit+me+foundation&tag=YOUR-TAG-20" target="_blank" rel="noopener" class="btn-amazon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            View on Amazon
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+      <div class="product-img p3">
+        💆
+      </div>
+      <div class="product-info">
+        <p class="product-brand">OGX</p>
+        <h3 class="product-name">Argan Oil of Morocco Shampoo</h3>
+        <p class="product-desc">Infused with argan oil to tame frizz and add shine for silky, touchable hair.</p>
+        <div class="stars">★★★★★</div>
+        <div class="reviews">4.7 · 28,500+ reviews</div>
+        <br>
+        <div class="product-footer">
+          <div>
+            <span class="price">$11.47</span>
+          </div>
+          <a href="https://www.amazon.com/s?k=ogx+argan+oil+shampoo&tag=YOUR-TAG-20" target="_blank" rel="noopener" class="btn-amazon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            View on Amazon
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product-card">
+      <div class="product-img p4">
+        <span class="badge-hot">New</span>
+        ✨
+      </div>
+      <div class="product-info">
+        <p class="product-brand">The Ordinary</p>
+        <h3 class="product-name">Niacinamide 10% + Zinc 1% Serum</h3>
+        <p class="product-desc">Reduces blemishes and balances visible sebum activity for a smoother complexion.</p>
+        <div class="stars">★★★★★</div>
+        <div class="reviews">4.6 · 55,000+ reviews</div>
+        <br>
+        <div class="product-footer">
+          <div>
+            <span class="price">$7.90</span>
+          </div>
+          <a href="https://www.amazon.com/s?k=the+ordinary+niacinamide+zinc&tag=YOUR-TAG-20" target="_blank" rel="noopener" class="btn-amazon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            View on Amazon
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 5 -->
+    <div class="product-card">
+      <div class="product-img p5">
+        👗
+      </div>
+      <div class="product-info">
+        <p class="product-brand">Amazon Essentials</p>
+        <h3 class="product-name">Women's Classic V-Neck Blouse</h3>
+        <p class="product-desc">Soft, breathable fabric in 20+ colors. A wardrobe staple that goes with everything.</p>
+        <div class="stars">★★★★☆</div>
+        <div class="reviews">4.4 · 18,200+ reviews</div>
+        <br>
+        <div class="product-footer">
+          <div>
+            <span class="price">$22.90</span>
+          </div>
+          <a href="https://www.amazon.com/s?k=amazon+essentials+womens+blouse&tag=YOUR-TAG-20" target="_blank" rel="noopener" class="btn-amazon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            View on Amazon
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 6 -->
+    <div class="product-card">
+      <div class="product-img p6">
+        <span class="badge-sale">Top Pick</span>
+        💅
+      </div>
+      <div class="product-info">
+        <p class="product-brand">Sally Hansen</p>
+        <h3 class="product-name">Miracle Gel Nail Polish</h3>
+        <p class="product-desc">Two-step gel system — no UV light needed. Lasts up to 14 days with intense shine.</p>
+        <div class="stars">★★★★★</div>
+        <div class="reviews">4.5 · 31,700+ reviews</div>
+        <br>
+        <div class="product-footer">
+          <div>
+            <span class="price">$8.97</span>
+            <span class="price-old">$11.99</span>
+          </div>
+          <a href="https://www.amazon.com/s?k=sally+hansen+miracle+gel&tag=YOUR-TAG-20" target="_blank" rel="noopener" class="btn-amazon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            View on Amazon
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-header">
+    <p class="section-eyebrow">Simple Process</p>
+    <h2 class="section-title">How GlowPicks works</h2>
+  </div>
+  <div class="how-grid">
+    <div class="how-step">
+      <div class="how-num">01</div>
+      <div class="how-icon">🔍</div>
+      <h3>We Research</h3>
+      <p>Our editors test hundreds of beauty and fashion products across every price range and skin type to find what truly delivers.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">02</div>
+      <div class="how-icon">✅</div>
+      <h3>We Curate</h3>
+      <p>Only the top-rated, best-value products make it onto GlowPicks. No fluff — just items worth your money.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">03</div>
+      <div class="how-icon">🛒</div>
+      <h3>You Shop</h3>
+      <p>Click any product link to go straight to Amazon. We earn a small commission — at no extra cost to you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="banner">
+  <div class="banner-text">
+    <h2>Discover <em>this week's</em> bestsellers</h2>
+    <p>Fresh picks updated every Monday — trending beauty & fashion deals.</p>
+  </div>
+  <a href="https://www.amazon.com/s?k=beauty+bestsellers&tag=YOUR-TAG-20" target="_blank" rel="noopener" class="btn-light">Browse Amazon →</a>
+</div>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <p class="section-eyebrow">Stay in the Loop</p>
+  <h2>Get weekly beauty & fashion finds</h2>
+  <p>New curated picks, deals, and honest reviews delivered to your inbox every week.</p>
+  <div class="nl-form">
+    <input type="email" placeholder="your@email.com" />
+    <button type="button" onclick="this.textContent='Subscribed ✓'; this.style.background='#c9897a';">Subscribe</button>
+  </div>
+  <p class="nl-note">No spam. Unsubscribe anytime.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="font-size:1.3rem;">Glow<span>Picks</span></a>
+      <p>Curated beauty and fashion recommendations from Amazon — tested, reviewed, and approved by real editors.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Skincare</a></li>
+        <li><a href="#">Makeup</a></li>
+        <li><a href="#">Hair Care</a></li>
+        <li><a href="#">Fashion</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#">Best Sellers</a></li>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">On Sale</a></li>
+        <li><a href="#">Editor's Picks</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Disclaimer</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 GlowPicks. All rights reserved.</p>
+    <p class="affiliate-notice">As an Amazon Associate, GlowPicks earns from qualifying purchases. Product prices and availability are accurate as of the date/time indicated and may change.</p>
+  </div>
+</footer>
+
+</body>
+</html>
